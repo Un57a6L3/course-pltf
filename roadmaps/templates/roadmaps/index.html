@@ -1,0 +1,13 @@
+{% load static %}
+
+<link rel="stylesheet" href = "{% static 'roadmaps/style.css' %}">
+
+{% if trajectory_list %}
+    <ul>    
+    {% for traj in trajectory_list %}
+        <li><a href="{% url 'roadmaps:trajectory' traj.slug %}">{{ traj.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Траекторий обучения не найдено.</p>
+{% endif %}
