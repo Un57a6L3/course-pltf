@@ -1,6 +1,10 @@
+{% extends "./base.html" %}
+
 {% load static %}
 
 <link rel="stylesheet" href = "{% static 'roadmaps/style.css' %}">
+
+{% block content %}
 
 <h1>Траектория обучения: {{ trajectory.name }}</h1>
 <p>Описание: {{ trajectory.description }}</p>
@@ -24,3 +28,5 @@
 {% else %}
     <p>Элементов траектории не найдено.</p>
 {% endif %}
+
+{% endblock %}

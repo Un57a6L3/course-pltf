@@ -1,6 +1,10 @@
+{% extends "./base.html" %}
+
 {% load static %}
 
 <link rel="stylesheet" href = "{% static 'roadmaps/style.css' %}">
+
+{% block content %}
 
 {% if trajectory_list %}
     <ul>    
@@ -11,3 +15,5 @@
 {% else %}
     <p>Траекторий обучения не найдено.</p>
 {% endif %}
+
+{% endblock %}

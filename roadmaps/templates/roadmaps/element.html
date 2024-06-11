@@ -1,3 +1,5 @@
+{% extends "./base.html" %}
+
 {% load static %}
 {% load render_table from django_tables2 %}
 
@@ -8,6 +10,9 @@
 {# css to use the header sort icons #}
 {# <link rel="stylesheet" href="{% static 'django_table_sort.css' %}"/> #}
 
+{% block content %}
+
+<div><a href="{% url 'roadmaps:trajectory' trajelement.trajectory.slug %}">Назад к траектории {{ trajelement.trajectory.name }}</a></div>
 <h1>Элемент траектории: {{ trajelement.name }}</h1>
 <p>Описание: {{ trajelement.description }}</p>
 
@@ -29,3 +34,5 @@
 {% else %}
     <p>Курсов не найдено.</p>
 {% endif %}
+
+{% endblock %}
