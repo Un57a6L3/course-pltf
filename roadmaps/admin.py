@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Trajectory, TrajElement, Course
+
+admin.site.register(Trajectory)
+admin.site.register(TrajElement)
+admin.site.register(Course)

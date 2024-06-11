@@ -4,7 +4,18 @@
 
 <h1>Траектория обучения: {{ trajectory.name }}</h1>
 <p>Описание: {{ trajectory.description }}</p>
-<p>Теги: {{ trajectory.tags }}</p>
+
+{% if trajectory.tags %} 
+    <p>
+        Теги:
+        {% for tag in trajectory.get_tags %}
+            <code>{{ tag }} </code>
+        {% endfor %}
+    </p>
+{% else %}
+    <p>Тегов не найдено.</p>
+{% endif %}
+
 {% if trajectory.trajelement_set %} 
     <p>Элементы траектории:</p>
     {% for elem in trajectory.trajelement_set.all %}
