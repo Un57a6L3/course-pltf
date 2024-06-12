@@ -12,8 +12,16 @@
 
 {% block content %}
 
-<div><a href="{% url 'roadmaps:trajectory' trajelement.trajectory.slug %}">Назад к траектории {{ trajelement.trajectory.name }}</a></div>
-<h1>Элемент траектории: {{ trajelement.name }}</h1>
+{# <div><a href="{% url 'roadmaps:trajectory' trajelement.trajectory.slug %}">Назад к траектории {{ trajelement.trajectory.name }}</a></div> #}
+{# <h1>Элемент траектории: {{ trajelement.name }}</h1> #}
+
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="h4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'roadmaps:trajectory' trajelement.trajectory.slug %}"><b>{{ trajelement.trajectory.name }}</b></a></li>
+      <li class="breadcrumb-item active" aria-current="page"><b>{{ trajelement.name }}</b></li>
+    </ol>
+</nav>
+
 <p>Описание: {{ trajelement.description }}</p>
 
 {% if trajelement.tags %} 

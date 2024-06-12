@@ -6,3 +6,4 @@ class CourseTable(tables.Table):
         model = Course
         fields=['name', 'topic', 'language', 'duration', 'difficulty', 'detail', 'userscore']
         order_by = '-userscore'
+        attrs = {'class': 'table table-dark table-striped'}
