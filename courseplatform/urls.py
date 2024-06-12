@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('roadmaps/', include('roadmaps.urls')),
     path('admin/', admin.site.urls),
+    path('roadmaps/', include('roadmaps.urls')),
+    path('authapp/', include('django.contrib.auth.urls')),
+    path('authapp/', include('authapp.urls')),
 ]
