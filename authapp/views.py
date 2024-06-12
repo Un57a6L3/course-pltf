@@ -11,8 +11,12 @@ def login_user(request):
             login(request, user)
             return redirect('roadmaps:index')
         else:
-            messages.success(request, ('Error logging in, try again'))
+            messages.success(request, ('Error logging in, try again.'))
             return redirect('authapp:login')
-        
     else:
         return render(request, 'authapp/login.html')
+    
+def logout_user(request):
+    logout(request)
+    messages.success(request, ('Logged out successfully.'))
+    return redirect('roadmaps:index')
