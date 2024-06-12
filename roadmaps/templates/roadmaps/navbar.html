@@ -13,6 +13,9 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'authapp:register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'authapp:login' %}">Login</a>
                     </li>
                 {% endif %}
