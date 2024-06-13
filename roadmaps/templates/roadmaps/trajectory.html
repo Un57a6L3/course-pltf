@@ -40,7 +40,31 @@
     {% endif %}
 
 {% elif user.is_authenticated and user.profile.role == 'curator' %}
-    
+    {% if trajectory.trajelement_set %} 
+        <p>Элементы траектории:</p>
+        {% for elem in trajectory.trajelement_set.all %}
+            <div><a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a></div>
+        {% endfor %}
+        <br>
+        <table class="table table-dark table-striped-columns">
+            <tr>
+                <th>Студент / Элемент</th>
+                {% for elem in trajectory.trajelement_set.all %}
+                <th>{{ elem.name }}</th>
+                {% endfor %}
+            </tr>
+            {% for student in user.profile.get_student_profiles %}
+            <tr>
+                <th>{{ student.get_fullname }}</th>
+                {% for elem in trajectory.trajelement_set.all %}
+                <th>{% if elem in student.completed_elements.all %}+{% else %} {% endif %}</th>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Элементов траектории не найдено.</p>
+    {% endif %}
 
 {% else %}
     {% if trajectory.trajelement_set %} 

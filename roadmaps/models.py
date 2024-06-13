@@ -58,9 +58,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_student_profiles(self):
+        return Profile.objects.filter(role='student')
+    
+    def get_fullname(self):
+        return f'{self.user.last_name} {self.user.first_name}'
 
 
-@receiver(pre_save, sender=User)
+@receiver(post_save, sender=User)
 def create_user_profile(sender, instance, **kwargs):
     if not hasattr(instance, 'profile'):
         Profile.objects.create(user=instance)
