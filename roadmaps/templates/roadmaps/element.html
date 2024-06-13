@@ -5,15 +5,7 @@
 
 <link rel="stylesheet" href = "{% static 'roadmaps/style.css' %}">
 
-{# Font Awesome 6 for the table icons #}
-{# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> #}
-{# css to use the header sort icons #}
-{# <link rel="stylesheet" href="{% static 'django_table_sort.css' %}"/> #}
-
 {% block content %}
-
-{# <div><a href="{% url 'roadmaps:trajectory' trajelement.trajectory.slug %}">Назад к траектории {{ trajelement.trajectory.name }}</a></div> #}
-{# <h1>Элемент траектории: {{ trajelement.name }}</h1> #}
 
 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="h4">
     <ol class="breadcrumb">
@@ -24,11 +16,11 @@
 
 <p>Описание: {{ trajelement.description }}</p>
 
-{% if trajelement.tags %} 
+{% if trajelement.tags %}
     <p>
         Теги:
         {% for tag in trajelement.get_tags %}
-            <code>{{ tag }} </code>
+            <span class="badge text-bg-secondary">{{ tag }}</span>
         {% endfor %}
     </p>
 {% else %}
@@ -37,7 +29,6 @@
 
 {% if trajelement.courses %} 
     <p>Курсы по элементу:</p>
-    {# {{ table.render }} #}
     {% render_table coursetable %}
 {% else %}
     <p>Курсов не найдено.</p>
