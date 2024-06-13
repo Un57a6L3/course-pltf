@@ -9,24 +9,49 @@
 <h1>Траектория обучения: {{ trajectory.name }}</h1>
 <p>Описание: {{ trajectory.description }}</p>
 
-{% if trajectory.tags %} 
+{% if trajectory.tags %}
     <p>
         Теги:
         {% for tag in trajectory.get_tags %}
-            <code>{{ tag }} </code>
+            <span class="badge text-bg-secondary">{{ tag }}</span>
         {% endfor %}
     </p>
 {% else %}
     <p>Тегов не найдено.</p>
 {% endif %}
 
-{% if trajectory.trajelement_set %} 
-    <p>Элементы траектории:</p>
-    {% for elem in trajectory.trajelement_set.all %}
-        <div><a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a></div>
-    {% endfor %}
+{% if user.is_authenticated and user.profile.role == 'student' %}
+    {% if trajectory.trajelement_set %} 
+        <p>Элементы траектории:</p>
+        {% for elem in trajectory.trajelement_set.all %}
+            <div class="hstack gap-3">
+                <div>
+                    <a href="{% url 'roadmaps:toggle_element' elem.id %}" class="btn btn-primary">
+                        {% if elem in user.profile.completed_elements.all %}Выполнено{% else %}Не выполнено{% endif %}
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Элементов траектории не найдено.</p>
+    {% endif %}
+
+{% elif user.is_authenticated and user.profile.role == 'curator' %}
+    
+
 {% else %}
-    <p>Элементов траектории не найдено.</p>
+    {% if trajectory.trajelement_set %} 
+        <p>Элементы траектории:</p>
+        {% for elem in trajectory.trajelement_set.all %}
+            <div><a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a></div>
+        {% endfor %}
+    {% else %}
+        <p>Элементов траектории не найдено.</p>
+    {% endif %}
+    
 {% endif %}
 
 {% endblock %}

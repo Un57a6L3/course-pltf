@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from django_table_sort.table import TableSort
 from django_tables2 import RequestConfig
@@ -39,22 +41,14 @@ class ElementView(generic.DetailView):
         context['coursetable'] = table
         return context
 
-    # # All of the below is code for django-table-sort,
-    # # which for some reason did not sort. Yup.
-    # # It did add some pretty buttons though
-    # 
-    # ordering_key = 'o'
-    # 
-    # def get_ordering(self) -> tuple:
-    #     return self.request.GET.getlist(self.ordering_key, None)
-    # 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['table'] = TableSort(
-    #         self.request,
-    #         context['trajelement'].courses.all(),
-    #         fields=['name', 'topic', 'language', 'duration', 'difficulty', 'detail', 'userscore'],
-    #         sort_key_name=self.ordering_key,
-    #         table_css_clases="table table-light table-striped table-sm",
-    #     )
-    #     return context
+
+def toggle_element(request, pk):
+    elem = TrajElement.objects.get(id=pk)
+    if elem in request.user.profile.completed_elements.all():
+        request.user.profile.completed_elements.remove(elem)
+        messages.success(request, 'Элемент отмечен как выполненный.')
+    else:
+        request.user.profile.completed_elements.add(elem)
+        messages.success(request, 'Элемент отмечен как невыполненный.')
+    request.user.save()
+    return redirect(reverse('roadmaps:trajectory', args=[elem.trajectory.slug]))

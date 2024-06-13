@@ -54,6 +54,7 @@ class TrajElement(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     role = models.CharField(max_length=50, default='student')
+    completed_elements = models.ManyToManyField(TrajElement)
 
     def __str__(self):
         return self.user.username
