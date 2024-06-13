@@ -23,6 +23,9 @@ class Course(models.Model):
     def get_tags(self):
         return self.tags.split(',')
 
+    def get_absolute_url(self):
+        return self.link
+
 
 class Trajectory(models.Model):
     name = models.CharField(max_length=256)

@@ -2,7 +2,7 @@ import django_tables2 as tables
 from .models import TrajElement, Course
 
 class CourseTable(tables.Table):
-    name = tables.Column(verbose_name='Название курса')
+    name = tables.Column(verbose_name='Название курса', linkify=True, attrs={'a': {'class': 'link-info'}})
     topic = tables.Column(verbose_name='Тема')
     language = tables.Column(verbose_name='Язык')
     duration = tables.Column(verbose_name='Длительность (ч)')
