@@ -20,7 +20,7 @@
     <p>Тегов не найдено.</p>
 {% endif %}
 
-{% if user.is_authenticated and user.profile.role == 'student' %}
+{% if user.is_authenticated and user.profile.role == 'student' or user.is_authenticated and user.profile.role == 'admin'%}
     {% if trajectory.trajelement_set %} 
         <p>Элементы траектории:</p>
         {% for elem in trajectory.trajelement_set.all %}

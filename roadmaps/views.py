@@ -46,9 +46,9 @@ def toggle_element(request, pk):
     elem = TrajElement.objects.get(id=pk)
     if elem in request.user.profile.completed_elements.all():
         request.user.profile.completed_elements.remove(elem)
-        messages.success(request, 'Элемент отмечен как выполненный.')
+        messages.success(request, 'Элемент отмечен как невыполненный.')
     else:
         request.user.profile.completed_elements.add(elem)
-        messages.success(request, 'Элемент отмечен как невыполненный.')
+        messages.success(request, 'Элемент отмечен как выполненный.')
     request.user.save()
     return redirect(reverse('roadmaps:trajectory', args=[elem.trajectory.slug]))
