@@ -6,12 +6,29 @@
 
 {% block content %}
 
+<h1>Прототип платформы-агрегатора открытых онлайн курсов</h1>
+<br>
+
 {% if trajectory_list %}
-    <ul>    
     {% for traj in trajectory_list %}
-        <li><a href="{% url 'roadmaps:trajectory' traj.slug %}">{{ traj.name }}</a></li>
+    <div class="card shadow" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ traj.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+                {% if traj.tags %}
+                    {% for tag in traj.get_tags %}
+                    <span class="badge text-bg-secondary">{{ tag }}</span>
+                    {% endfor %}
+                {% else %}
+                Тегов не найдено.
+                {% endif %}
+            </h6>
+
+            <p class="card-text">{{ traj.description }}</p>
+            <a href="{% url 'roadmaps:trajectory' traj.slug %}" class="card-link btn btn-primary">Подробнее</a>
+        </div>
+    </div>
     {% endfor %}
-    </ul>
 {% else %}
     <p>Траекторий обучения не найдено.</p>
 {% endif %}
