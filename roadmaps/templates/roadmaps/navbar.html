@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'roadmaps:index' %}">[Platform Name]</a>
+        <a class="navbar-brand" href="{% url 'roadmaps:index' %}">[Прототип платформы]</a>
         <div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'roadmaps:index' %}">Roadmaps</a>
+                    <a class="nav-link" href="{% url 'roadmaps:index' %}">Траектории обучения</a>
                 </li>
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'authapp:logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'authapp:logout' %}">Выйти</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'authapp:register' %}">Register</a>
+                        <a class="nav-link" href="{% url 'authapp:register' %}">Зарегистрироваться</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'authapp:login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'authapp:login' %}">Войти</a>
                     </li>
                 {% endif %}
             </ul>

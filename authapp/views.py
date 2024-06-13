@@ -12,14 +12,14 @@ def login_user(request):
             login(request, user)
             return redirect('roadmaps:index')
         else:
-            messages.success(request, ('Error logging in, try again.'))
+            messages.success(request, ('Ошибка при авторизации, попробуйте еще раз.'))
             return redirect('authapp:login')
     else:
         return render(request, 'authapp/login.html')
     
 def logout_user(request):
     logout(request)
-    messages.success(request, ('Logged out successfully.'))
+    messages.success(request, ('Вы успешно вышли из учетной записи.'))
     return redirect('roadmaps:index')
 
 def register_user(request):
@@ -31,7 +31,7 @@ def register_user(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ('Registered successfully.'))
+            messages.success(request, ('Вы успешно зарегистрировали учетную запись.'))
             return redirect('roadmaps:index')
     else:
         form = RegisterUserForm()
