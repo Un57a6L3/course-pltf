@@ -10,25 +10,29 @@
 <br>
 
 {% if trajectory_list %}
-    {% for traj in trajectory_list %}
-    <div class="card shadow" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">{{ traj.name }}</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">
-                {% if traj.tags %}
-                    {% for tag in traj.get_tags %}
-                    <span class="badge text-bg-secondary">{{ tag }}</span>
-                    {% endfor %}
-                {% else %}
-                Тегов не найдено.
-                {% endif %}
-            </h6>
-
-            <p class="card-text">{{ traj.description }}</p>
-            <a href="{% url 'roadmaps:trajectory' traj.slug %}" class="card-link btn btn-primary">Подробнее</a>
+    <div class="container">
+        <div class="row row-cols-3 justify-content-center">
+            {% for traj in trajectory_list %}
+            <div class="col m-3 card shadow" style="width: 18rem;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ traj.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {% if traj.tags %}
+                            {% for tag in traj.get_tags %}
+                            <span class="badge text-bg-secondary">{{ tag }}</span>
+                            {% endfor %}
+                        {% else %}
+                        Тегов не найдено.
+                        {% endif %}
+                    </h6>
+                    <p class="card-text">{{ traj.description }}</p>
+                    <a href="{% url 'roadmaps:trajectory' traj.slug %}" class="card-link btn btn-primary align-self-start", style="margin-top: auto;">Подробнее</a>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
+    
 {% else %}
     <p>Траекторий обучения не найдено.</p>
 {% endif %}
