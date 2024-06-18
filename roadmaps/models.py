@@ -17,6 +17,10 @@ class Course(models.Model):
     detail = models.DecimalField(max_digits=2, decimal_places=1)
     userscore = models.DecimalField(max_digits=2, decimal_places=1)
 
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
+
     def __str__(self):
         return self.name
     
@@ -33,6 +37,10 @@ class Trajectory(models.Model):
     description = models.TextField()
     tags = models.CharField(max_length=1024)
 
+    class Meta:
+        verbose_name = 'Траектория'
+        verbose_name_plural = 'Траектории'
+
     def __str__(self):
         return self.name
     
@@ -47,6 +55,10 @@ class TrajElement(models.Model):
     trajectory = models.ForeignKey(Trajectory, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course)
 
+    class Meta:
+        verbose_name = 'Элемент траектории'
+        verbose_name_plural = 'Элементы траекторий'
+
     def __str__(self):  
         return self.name
     
@@ -59,11 +71,18 @@ class Profile(models.Model):
     role = models.CharField(max_length=50, default='student')
     completed_elements = models.ManyToManyField(TrajElement)
 
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
     def __str__(self):
         return self.user.username
     
     def get_student_profiles(self):
         return Profile.objects.filter(role='student')
+    
+    def get_curated_groups(self):
+        return self.curated_groups.all().order_by('name')
     
     def get_fullname(self):
         return f'{self.user.last_name} {self.user.first_name}'
@@ -71,12 +90,19 @@ class Profile(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=256)
-    curators = models.ManyToManyField(Profile, related_name='curator_set')
-    participants = models.ManyToManyField(Profile, related_name='participant_set')
+    curators = models.ManyToManyField(Profile, related_name='curated_groups')
+    participants = models.ManyToManyField(Profile, related_name='part_of_groups')
     trajectory = models.ForeignKey(Trajectory, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
         return self.name
+    
+    def get_students(self):
+        return self.participants.filter(role='student')
 
 
 @receiver(post_save, sender=User)
