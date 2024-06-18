@@ -14,11 +14,11 @@
     </ol>
 </nav>
 
-<p>Описание: {{ trajelement.description }}</p>
+<p><b>Описание:</b> {{ trajelement.description }}</p>
 
 {% if trajelement.tags %}
     <p>
-        Теги:
+        <b>Теги:</b>
         {% for tag in trajelement.get_tags %}
             <span class="badge text-bg-secondary">{{ tag }}</span>
         {% endfor %}
@@ -28,8 +28,10 @@
 {% endif %}
 
 {% if trajelement.courses %} 
-    <p>Курсы по элементу:</p>
+    <p><b>Курсы по элементу:</b></p>
+    <div class="table-responsive">
     {% render_table coursetable %}
+    </div>
 {% else %}
     <p>Курсов не найдено.</p>
 {% endif %}

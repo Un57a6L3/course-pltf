@@ -7,11 +7,11 @@
 {% block content %}
 
 <h1>Траектория обучения: {{ trajectory.name }}</h1>
-<p>Описание: {{ trajectory.description }}</p>
+<p><b>Описание:</b> {{ trajectory.description }}</p>
 
 {% if trajectory.tags %}
     <p>
-        Теги:
+        <b>Теги:</b>
         {% for tag in trajectory.get_tags %}
             <span class="badge text-bg-secondary">{{ tag }}</span>
         {% endfor %}
@@ -21,57 +21,71 @@
 {% endif %}
 
 {% if user.is_authenticated and user.profile.role == 'student' or user.is_authenticated and user.profile.role == 'admin'%}
-    {% if trajectory.trajelement_set %} 
-        <p>Элементы траектории:</p>
+    {% if trajectory.trajelement_set.all %} 
+        <p><b>Элементы траектории:</b></p>
+        {% comment %} <div class='vstack gap-2'> {% endcomment %}
         {% for elem in trajectory.trajelement_set.all %}
-            <div class="hstack gap-3">
-                <div>
-                    <a href="{% url 'roadmaps:toggle_element' elem.id %}" class="btn btn-primary">
-                        {% if elem in user.profile.completed_elements.all %}Выполнено{% else %}Не выполнено{% endif %}
-                    </a>
+            {% comment %} <div class="hstack gap-3"> {% endcomment %}
+            <div class="row mb-2">
+                <div class="col-2">
+                    {% if elem in user.profile.completed_elements.all %}
+                    <a href="{% url 'roadmaps:toggle_element' elem.id %}" class="btn btn-primary w-100 btn-success">Выполнено</a>
+                    {% else %}
+                    <a href="{% url 'roadmaps:toggle_element' elem.id %}" class="btn btn-primary w-100 btn-secondary">Не выполнено</a>
+                    {% endif %}
                 </div>
-                <div>
+                <div class="col-10 d-flex" style="align-items:center">
                     <a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a>
                 </div>
             </div>
         {% endfor %}
+        {% comment %} </div> {% endcomment %}
     {% else %}
         <p>Элементов траектории не найдено.</p>
     {% endif %}
 
 {% elif user.is_authenticated and user.profile.role == 'curator' %}
-    {% if trajectory.trajelement_set %} 
-        <p>Элементы траектории:</p>
-        {% for elem in trajectory.trajelement_set.all %}
-            <div><a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a></div>
-        {% endfor %}
+    {% if trajectory.trajelement_set.all %} 
+        <p><b>Элементы траектории:</b></p>
+        <div class="list-group">
+            {% for elem in trajectory.trajelement_set.all %}
+            <a href="{% url 'roadmaps:element' trajectory.slug elem.id %}" class="list-group-item list-group-item-action">{{ elem.name }}</a>
+            {% endfor %}
+        </div>
         <br>
+        <h3>Прогресс группы:</h3>
+        <div class="table-responsive">
         <table class="table table-dark table-striped-columns">
-            <tr>
-                <th>Студент / Элемент</th>
+            <thead><tr>
+                <th scope="col">Студент / Элемент</th>
                 {% for elem in trajectory.trajelement_set.all %}
-                <th>{{ elem.name }}</th>
+                <th scope="col">{{ elem.name }}</th>
                 {% endfor %}
-            </tr>
+            </tr></thead>
+            <tbody class="table-group-divider">
             {% for student in user.profile.get_student_profiles %}
             <tr>
-                <th>{{ student.get_fullname }}</th>
+                <th scope="row">{{ student.get_fullname }}</th>
                 {% for elem in trajectory.trajelement_set.all %}
-                <th>{% if elem in student.completed_elements.all %}+{% else %} {% endif %}</th>
+                <td style="text-align:center">{% if elem in student.completed_elements.all %}+{% else %} {% endif %}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
+            </tbody>
         </table>
+        </div>
     {% else %}
         <p>Элементов траектории не найдено.</p>
     {% endif %}
 
 {% else %}
-    {% if trajectory.trajelement_set %} 
-        <p>Элементы траектории:</p>
-        {% for elem in trajectory.trajelement_set.all %}
-            <div><a href="{% url 'roadmaps:element' trajectory.slug elem.id %}">{{ elem.name }}</a></div>
-        {% endfor %}
+    {% if trajectory.trajelement_set.all %} 
+        <p><b>Элементы траектории:</b></p>
+        <div class="list-group">
+            {% for elem in trajectory.trajelement_set.all %}
+            <a href="{% url 'roadmaps:element' trajectory.slug elem.id %}" class="list-group-item list-group-item-action">{{ elem.name }}</a>
+            {% endfor %}
+        </div>
     {% else %}
         <p>Элементов траектории не найдено.</p>
     {% endif %}
