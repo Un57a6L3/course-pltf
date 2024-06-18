@@ -69,6 +69,8 @@
                     <td style="text-align:center">{% if elem in student.completed_elements.all %}+{% else %} {% endif %}</td>
                     {% endfor %}
                 </tr>
+                {% empty %}
+                <tr><td colspan="{{ trajectory.trajelement_set.count|add:"1" }}" style="text-align:center">Обучающихся в группе не найдено.</td></tr>
                 {% endfor %}
                 </tbody>
             </table>

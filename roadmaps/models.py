@@ -113,3 +113,11 @@ def create_user_profile(sender, instance, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+@receiver(post_save, sender=Profile)
+def manage_default_group(sender, instance, **kwargs):
+    default_group = Group.objects.get(name='[Без группы]')
+    if not instance.part_of_groups.exists():
+        instance.part_of_groups.add(default_group)
+    elif instance.part_of_groups.count() > 1 and default_group in instance.part_of_groups.all():
+        instance.part_of_groups.remove(default_group)
