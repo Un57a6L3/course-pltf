@@ -7,6 +7,11 @@
                     <a class="nav-link" href="{% url 'roadmaps:index' %}">Траектории обучения</a>
                 </li>
 
+                {% if user.is_authenticated and user.profile.role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">Администрирование</a>
+                    </li>
+                {% endif %}
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'authapp:logout' %}">Выйти</a>

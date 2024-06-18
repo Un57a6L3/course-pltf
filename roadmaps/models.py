@@ -67,6 +67,16 @@ class Profile(models.Model):
     
     def get_fullname(self):
         return f'{self.user.last_name} {self.user.first_name}'
+    
+
+class Group(models.Model):
+    name = models.CharField(max_length=256)
+    curators = models.ManyToManyField(Profile, related_name='curator_set')
+    participants = models.ManyToManyField(Profile, related_name='participant_set')
+    trajectory = models.ForeignKey(Trajectory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 @receiver(post_save, sender=User)
